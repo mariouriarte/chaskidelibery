@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+
+  # PHP
+  app:    
+    container_name: chaski-be
+    build:
+      target: dev
+      context: .
+      dockerfile: Dockerfile
+      args:
+        userid: $userid
+    networks:
+      - chaski_network
+    volumes:
+      - ./:/appdata/www
+    ports:
+      - '3001:3001'
+
+  # NGINX
+  web:
+    container_name: chaski-web
+    build:
+      target: dev
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - '8001:80'
+    volumes:
+      - ./:/appdata/www
+    links:
+      - app
+    networks:
+      - chaski_network
+    depends_on:
+      - app
+
+  db:
+    container_name: mediplus-postgres
+    image: postgres:13-alpine
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: chaski
+      POSTGRES_PASSWORD: chaski
+      POSTGRES_DB: chaski
+      TZ: 'America/La_Paz'
+      PGTZ: 'America/La_Paz'
+    volumes:
+      - chaski-pgsql-data:/var/lib/postgresql/data
+    networks:
+      - chaski_network
+
+networks:
+  chaski_network:
+
+volumes:
+  mediplus-pgsql-data:

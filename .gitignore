@@ -1,30 +1,19 @@
 ###> symfony/framework-bundle ###
-.env
-/.env
 /.env.local
 /.env.local.php
 /.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
+/api/config/secrets/prod/prod.decrypt.private.php
+/api/public/bundles/
+/api/var/
+/api/vendor/
 /.idea/
 ###< symfony/framework-bundle ###
-/public/uploads/*
+/api//public/uploads/*
 ###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
+/api/phpunit.xml
+/api.phpunit.result.cache
 ###< phpunit/phpunit ###
 
 ###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
+/api/config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
-
-###> liip/imagine-bundle ###
-/public/media/cache/
-###< liip/imagine-bundle ###
-
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
