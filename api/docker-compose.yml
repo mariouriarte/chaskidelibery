@@ -16,7 +16,7 @@ services:
     volumes:
       - ./:/appdata/www
     ports:
-      - '3001:3001'
+      - '3009:3009'
 
   # NGINX
   web:
@@ -37,10 +37,10 @@ services:
       - app
 
   db:
-    container_name: mediplus-postgres
+    container_name: chaski-postgres
     image: postgres:13-alpine
     ports:
-      - '5433:5432'
+      - '5444:5432'
     environment:
       POSTGRES_USER: chaski
       POSTGRES_PASSWORD: chaski
@@ -56,4 +56,4 @@ networks:
   chaski_network:
 
 volumes:
-  mediplus-pgsql-data:
+  chaski-pgsql-data:
