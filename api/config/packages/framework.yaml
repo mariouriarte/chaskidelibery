@@ -17,6 +17,11 @@ framework:
     php_errors:
         log: true
 
+    serializer:
+        mapping:
+            path:
+                - '%kernel.project_dir%/src/Serialization'
+
 when@test:
     framework:
         test: true
