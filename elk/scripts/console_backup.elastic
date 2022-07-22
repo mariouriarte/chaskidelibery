@@ -1,0 +1,54 @@
+GET _search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+GET /_cat/indices
+
+DELETE /empresa
+DELETE /producto
+
+GET /empresa/_search
+GET /producto/_search
+
+GET /empresa/_search
+
+GET /empresa/_search
+{
+  "query": {
+    "match": {
+      "razon_social": "restaurante"
+    }
+  }
+}
+
+PUT empresa/_doc/djkhadlk-123123?routing=1&refresh
+{
+  "id": "djkhadlk-123123",
+  "razon_social": "Pizzeria Don Vito",
+  "descripcion": "Todo tipo de pizza a su domicilio",
+  "telefono": "23324323",
+  "categoria": "comida"
+}
+
+PUT empresa/_doc/2?routing=1&refresh
+{
+  "id": "2",
+  "razon_social": "Restaurante",
+  "descripcion": "Restaurante patio de comida",
+  "telefono": "23454554",
+  "categoria": "comida"
+}
+
+PUT producto/_doc/3213-dasdas?routing=1&refresh
+{
+  "id": "3213-dasdas",
+  "titulo": "Pizza peperoni",
+  "descripcion": "Pizza con queso y peperoni",
+  "precio": 150.50,
+  "categoria": "comida",
+  "stock": 20,
+  "empresa_id": "djkhadlk-123123"
+}
