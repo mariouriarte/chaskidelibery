@@ -2,63 +2,45 @@
 
 namespace App\Repository;
 
+use App\Entity\Empresa;
 use App\Infrastructure\CurlElastic\GetCurl;
+use App\Infrastructure\CurlElastic\PutCurl;
+use JMS\Serializer\SerializerInterface;
 
 class EmpresaElasticRepository
 {
+    public function __construct(
+        private readonly SerializerInterface $serializer
+    ) {
+    }
+
+    public function findPorRazonSocial(string $nombre): string
+    {
+        $curlConnection = new GetCurl('/empresa/_search');
+
+        $qry = '{
+              "query": {
+                "match": {
+                  "razon_social": "'.$nombre.'"
+                }
+              }
+           }';
+
+        return $curlConnection->execute($qry);
+    }
+
     public function findEmpresas(): string
     {
         $curlConnection = new GetCurl('/empresa/_search');
+
         return $curlConnection->execute();
-
-//        $username = 'elastic';
-//        $password = 'adminPassword';
-//        $host = 'http://192.168.200.50:9200/empresa/_search';
-//
-//        $ch = curl_init($host);
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-////        curl_setopt($ch, CURLOPT_HEADER, 1);
-//        curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
-//        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-////        curl_setopt($ch, CURLOPT_POST, 1);
-////        curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadName);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-//        $result = curl_exec($ch);
-//        curl_close($ch);
-//
-//        dump(json_decode($result));
-//        die;
-//
-//        return '';
-
-//        $ch = curl_init();
-//        $method = "GET";
-////        $url = "http://localhost:9200/empresa/_search";
-//        $url = "192.168.200.50:9200";
-//        $username = 'elastic';
-//        $password = 'adminPassword';
-//
-//        $qry = '{
-//        "size" : 10,
-//        "fields" : "usr",
-//                "query" : {
-//                        "term" : { "usr":"stratawing"}
-//                }
-//        }';
-//
-//        curl_setopt($ch, CURLOPT_URL, $url);
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-//        curl_setopt($ch, CURLOPT_HEADER, 1);
-//        curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
-//        curl_setopt($ch, CURLOPT_PORT, 9200);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
-////        curl_setopt($ch, CURLOPT_POSTFIELDS, $qry);
-//        $result = curl_exec($ch);
-//        curl_close($ch);
-//        dump(json_decode($result));
-
-
     }
 
+    public function save(Empresa $empresa): string
+    {
+        $curl = new PutCurl('/empresa/_doc/'.$empresa->getId());
+
+        $json = $this->serializer->serialize($empresa, 'json');
+        return $curl->execute($json);
+    }
 }

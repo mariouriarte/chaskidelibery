@@ -2,14 +2,11 @@
 
 namespace App\Controller;
 
-
-use App\Service\Empresa\EmpresasMostrarService;
+use App\Service\Empresa\RegistrarEmpresaService;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
@@ -21,25 +18,26 @@ use FOS\RestBundle\Controller\Annotations as Rest;
  *
  * @Route("/api/v1/empresa")
  */
-class EmpresasController extends AbstractFOSRestController
+class RegistrarEmpresasController extends AbstractFOSRestController
 {
     public function __construct(
-        private readonly EmpresasMostrarService $empresasMostrarService
+        private readonly RegistrarEmpresaService $registrarEmpresaService
     ) {
     }
 
     /**
      * Listado de empresas
      *
-     * @Rest\Get ("/")
+     * @Rest\Put ("/")
      *
+     * @param Request             $request
      * @param SerializerInterface $serializer
      *
      * @return JsonResponse
      */
-    public function execute(SerializerInterface $serializer): JsonResponse
+    public function execute(Request $request, SerializerInterface $serializer): JsonResponse
     {
-        $res = $this->empresasMostrarService->__invoke();
+        $res = $this->registrarEmpresaService->__invoke($request);
 
         return new JsonResponse(json_decode($res, true));
     }

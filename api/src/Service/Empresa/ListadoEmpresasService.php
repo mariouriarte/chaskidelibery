@@ -4,7 +4,7 @@ namespace App\Service\Empresa;
 
 use App\Repository\EmpresaElasticRepository;
 
-class EmpresasMostrarService
+class ListadoEmpresasService
 {
     public function __construct(
         private readonly EmpresaElasticRepository $empresaElasticRepository
